@@ -1,6 +1,6 @@
 <script>
   import { goto } from "$app/navigation";
-
+import { collection, doc, setDoc } from "firebase/firestore"; 
   import {
     getAuth,
     signInWithEmailAndPassword,
@@ -31,6 +31,11 @@
       createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           const user = userCredential.user;
+          const createNewUser = async () => {
+        const { user } = await createUserWithEmailAndPassword(auth, email, password)
+        await userProfile(user, { displayName: "Jane Q. User" })
+        console.log('New user', user.uid)
+}
           console.log(user);
           goto("/");
         })
